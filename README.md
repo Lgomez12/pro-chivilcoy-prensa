@@ -1,33 +1,16 @@
-# PRO Chivilcoy · Archivo de prensa (v3)
+# PRO Chivilcoy · Archivo de prensa v4
 
-Versión corregida y mejorada.
+Versión automática para Vercel.
 
 ## Qué cambia
-- Las noticias quedan ordenadas por fecha descendente: septiembre arriba, marzo abajo.
-- El histórico comienza el 1 de marzo de 2026.
-- Las notas automáticas sin fecha verificable no se publican.
-- El extractor limpia HTML basura (`srcset`, `loading`, `decoding`, URLs incrustadas, etc.).
-- Cuando una nota automática viene incompleta, el sistema abre la nota y busca `og:title`, `article:published_time`, `datePublished`, `time[datetime]` y descripción.
-- Se descartan notas anteriores a marzo de 2026.
-- Pie de página: “Creado por Lic. Gómez Leticia”.
-- Vercel vuelve a consultar las fuentes cada 30 minutos mediante `revalidate`.
+- La Razón de Chivilcoy se consulta mediante su buscador interno usando Jina Reader como capa de lectura cuando el diario bloquea a Vercel.
+- Búsquedas de La Razón: Noelia, Juan Felice, PRO, La Libertad Avanza y LLA-PRO.
+- La búsqueda de Noelia recorre hasta 3 páginas y la de Juan Felice hasta 2 para recuperar histórico.
+- Se eliminan noticias nacionales/provinciales generales que no tengan vínculo local con Chivilcoy.
+- Orden descendente: lo más nuevo siempre aparece primero.
+- Filtros 2026, 2027, 2028 y 2029 con los 12 meses.
+- Actualización automática cada 30 minutos.
+- Pie: Creado por Lic. Gómez Leticia.
 
-## Estructura correcta en GitHub
-La raíz del repositorio debe mostrar:
-
-- `app/`
-- `components/`
-- `lib/`
-- `public/`
-- `package.json`
-- `next.config.mjs`
-- `vercel.json`
-- `README.md`
-
-## Para volver a cargar desde cero
-1. Crear un repositorio nuevo en GitHub.
-2. Descomprimir este ZIP.
-3. Subir **el contenido interno** del ZIP, no el ZIP ni una carpeta contenedora.
-4. En Vercel: Add New → Project → importar el repositorio.
-5. Framework: Next.js. Root Directory: `./`.
-6. Deploy.
+## Importante
+Jina Reader ofrece acceso básico sin clave, con límites de frecuencia. Esta versión mantiene las consultas por debajo de un uso razonable y usa caché de 30 minutos.

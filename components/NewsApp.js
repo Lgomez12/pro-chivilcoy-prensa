@@ -2,11 +2,17 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
+const YEARS = ['2026', '2027', '2028', '2029'];
+const MONTHS = [
+  ['Todos', 'Todos los meses'], ['01', 'Enero'], ['02', 'Febrero'], ['03', 'Marzo'],
+  ['04', 'Abril'], ['05', 'Mayo'], ['06', 'Junio'], ['07', 'Julio'], ['08', 'Agosto'],
+  ['09', 'Septiembre'], ['10', 'Octubre'], ['11', 'Noviembre'], ['12', 'Diciembre']
+];
+
 function formatDate(date) {
   if (!date) return 'Fecha no disponible';
   return new Intl.DateTimeFormat('es-AR', { day: '2-digit', month: 'short', year: 'numeric' })
-    .format(new Date(`${date}T12:00:00`))
-    .replace('.', '');
+    .format(new Date(`${date}T12:00:00`)).replace('.', '');
 }
 
 export default function NewsApp() {
@@ -15,8 +21,7 @@ export default function NewsApp() {
   const [query, setQuery] = useState('');
   const [person, setPerson] = useState('Todas');
   const currentYear = String(new Date().getFullYear());
-  const initialYear = ['2026', '2027', '2028', '2029'].includes(currentYear) ? currentYear : '2026';
-  const [year, setYear] = useState(initialYear);
+  const [year, setYear] = useState(YEARS.includes(currentYear) ? currentYear : '2026');
   const [month, setMonth] = useState('Todos');
 
   useEffect(() => {
@@ -27,13 +32,6 @@ export default function NewsApp() {
   }, []);
 
   const people = ['Todas', 'Noelia Ramos Nicieza', 'Juan Ignacio Felice', 'LLA-PRO', 'PRO', 'La Libertad Avanza'];
-  const yearOptions = ['2026', '2027', '2028', '2029'];
-  const monthOptions = [
-    ['Todos', 'Todos los meses'],
-    ['01', 'Enero'], ['02', 'Febrero'], ['03', 'Marzo'], ['04', 'Abril'],
-    ['05', 'Mayo'], ['06', 'Junio'], ['07', 'Julio'], ['08', 'Agosto'],
-    ['09', 'Septiembre'], ['10', 'Octubre'], ['11', 'Noviembre'], ['12', 'Diciembre']
-  ];
 
   const filtered = useMemo(() => {
     return [...data.articles]
@@ -71,13 +69,13 @@ export default function NewsApp() {
         <div><strong>30 min</strong><span>actualización automática</span></div>
       </section>
 
-      <section className="container controls">
+      <section className="container controls controls3">
         <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar por tema, medio o palabra…" />
-        <select value={year} onChange={(e) => setYear(e.target.value)} aria-label="Filtrar por año">
-          {yearOptions.map((y) => <option value={y} key={y}>{y}</option>)}
+        <select value={year} onChange={(e) => setYear(e.target.value)} aria-label="Año">
+          {YEARS.map((y) => <option value={y} key={y}>{y}</option>)}
         </select>
-        <select value={month} onChange={(e) => setMonth(e.target.value)} aria-label="Filtrar por mes">
-          {monthOptions.map(([v, l]) => <option value={v} key={v}>{l}</option>)}
+        <select value={month} onChange={(e) => setMonth(e.target.value)} aria-label="Mes">
+          {MONTHS.map(([v, l]) => <option value={v} key={v}>{l}</option>)}
         </select>
       </section>
 
@@ -93,10 +91,7 @@ export default function NewsApp() {
       <section className="container grid">
         {filtered.map((a, i) => (
           <article className="card" key={`${a.url}-${i}`}>
-            <div className="cardTop">
-              <span className="date">{formatDate(a.date)}</span>
-              <span className="source">{a.source}</span>
-            </div>
+            <div className="cardTop"><span className="date">{formatDate(a.date)}</span><span className="source">{a.source}</span></div>
             <h3>{a.title}</h3>
             {a.excerpt && <p className="excerpt">{a.excerpt}</p>}
             <div className="tags">
@@ -121,4 +116,3 @@ export default function NewsApp() {
     </main>
   );
 }
-

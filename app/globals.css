@@ -22,7 +22,7 @@ h1 { margin: 0; max-width: 850px; font-size: clamp(36px, 6vw, 70px); line-height
 .stats > div { background: linear-gradient(135deg,var(--yellow2),var(--yellow)); padding: 22px; min-height: 112px; border-radius: 18px; display: flex; flex-direction: column; justify-content: space-between; }
 .stats strong { font-size: 34px; letter-spacing: -.04em; }
 .stats span { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
-.controls { display: grid; grid-template-columns: 1fr 150px 220px; gap: 12px; margin-top: 26px; }
+.controls { display: grid; grid-template-columns: 1fr 220px; gap: 12px; margin-top: 26px; }
 .controls input,.controls select { width: 100%; padding: 15px 17px; border: 1px solid var(--line); background: #fff; border-radius: 12px; font: inherit; outline: none; }
 .controls input:focus,.controls select:focus { border-color: var(--ink); }
 .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
@@ -68,3 +68,6 @@ h1 { margin: 0; max-width: 850px; font-size: clamp(36px, 6vw, 70px); line-height
 }
 .creator { margin-top: 6px !important; font-weight: 800; color: var(--yellow); }
 .card h3 { overflow-wrap: anywhere; }
+
+.controls3{grid-template-columns:minmax(0,1fr) 160px 235px}
+@media (max-width:760px){.controls3{grid-template-columns:1fr}.controls3 select{width:100%}}
