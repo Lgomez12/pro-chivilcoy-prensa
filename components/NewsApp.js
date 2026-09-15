@@ -14,6 +14,9 @@ export default function NewsApp() {
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [person, setPerson] = useState('Todas');
+  const currentYear = String(new Date().getFullYear());
+  const initialYear = ['2026', '2027', '2028', '2029'].includes(currentYear) ? currentYear : '2026';
+  const [year, setYear] = useState(initialYear);
   const [month, setMonth] = useState('Todos');
 
   useEffect(() => {
@@ -24,9 +27,12 @@ export default function NewsApp() {
   }, []);
 
   const people = ['Todas', 'Noelia Ramos Nicieza', 'Juan Ignacio Felice', 'LLA-PRO', 'PRO', 'La Libertad Avanza'];
+  const yearOptions = ['2026', '2027', '2028', '2029'];
   const monthOptions = [
-    ['Todos', 'Todos los meses'], ['03', 'Marzo'], ['04', 'Abril'], ['05', 'Mayo'],
-    ['06', 'Junio'], ['07', 'Julio'], ['08', 'Agosto'], ['09', 'Septiembre']
+    ['Todos', 'Todos los meses'],
+    ['01', 'Enero'], ['02', 'Febrero'], ['03', 'Marzo'], ['04', 'Abril'],
+    ['05', 'Mayo'], ['06', 'Junio'], ['07', 'Julio'], ['08', 'Agosto'],
+    ['09', 'Septiembre'], ['10', 'Octubre'], ['11', 'Noviembre'], ['12', 'Diciembre']
   ];
 
   const filtered = useMemo(() => {
@@ -36,10 +42,11 @@ export default function NewsApp() {
         const haystack = `${a.title} ${a.source} ${a.excerpt || ''} ${(a.people || []).join(' ')} ${(a.topics || []).join(' ')}`.toLowerCase();
         const okQuery = !query || haystack.includes(query.toLowerCase());
         const okPerson = person === 'Todas' || (a.people || []).includes(person);
+        const okYear = !year || (a.date || '').slice(0, 4) === year;
         const okMonth = month === 'Todos' || (a.date || '').slice(5, 7) === month;
-        return okQuery && okPerson && okMonth;
+        return okQuery && okPerson && okYear && okMonth;
       });
-  }, [data.articles, query, person, month]);
+  }, [data.articles, query, person, year, month]);
 
   const sourceCount = new Set(data.articles.map((a) => a.source)).size;
   const noeliaCount = data.articles.filter((a) => (a.people || []).includes('Noelia Ramos Nicieza')).length;
@@ -66,7 +73,10 @@ export default function NewsApp() {
 
       <section className="container controls">
         <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar por tema, medio o palabra…" />
-        <select value={month} onChange={(e) => setMonth(e.target.value)}>
+        <select value={year} onChange={(e) => setYear(e.target.value)} aria-label="Filtrar por año">
+          {yearOptions.map((y) => <option value={y} key={y}>{y}</option>)}
+        </select>
+        <select value={month} onChange={(e) => setMonth(e.target.value)} aria-label="Filtrar por mes">
           {monthOptions.map(([v, l]) => <option value={v} key={v}>{l}</option>)}
         </select>
       </section>
@@ -111,3 +121,4 @@ export default function NewsApp() {
     </main>
   );
 }
+
